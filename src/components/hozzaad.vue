@@ -29,7 +29,7 @@
             </div>
             <p class="urlBevitel w-50">
                 <label class="form-label mb-2">Kép URL:</label>
-                <input type="url" class="form-control" placeholder="Ide illeszd be egy képnek az URL-jét!">
+                <input type="url" class="form-control feher" placeholder="Ide illeszd be egy képnek az URL-jét!">
             </p>
             <p class="text-center mt-4">
                 <button type="button" class="btn-subtle theme-warning">Hozzáadás</button>
