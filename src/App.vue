@@ -14,6 +14,16 @@ const keres = ref("");
 const nehezseg = ref(0);
 const elkIdo = ref(0);
 
+const ujReceptLathato = ref(false);
+
+const ujReceptMegnyit = () => {
+  ujReceptLathato.value = true;
+};
+
+const receptekMegnyit = () => {
+  ujReceptLathato.value = false;
+};
+
 const init = () => {
   for (let i = 0; i < adatok.length; i++) {
     const a = adatok[i];
@@ -80,10 +90,10 @@ init();
           <div class="drawer-body">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Recept</a>
+                <a class="nav-link" :class="{ active: !ujReceptLathato }" href="#" @click.prevent="receptekMegnyit">Recept</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Új recept</a>
+                <a class="nav-link" :class="{ active: ujReceptLathato }" href="#" @click.prevent="ujReceptMegnyit">Új recept</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Kedvencek</a>
@@ -99,10 +109,10 @@ init();
 
 
   <main>
-    <searchBar :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok" @keres="keresValtozott"
-      @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
-    <receptek :receptek="szurtReceptek" />
-    <hozzaad />
+    <searchBar v-if="!ujReceptLathato" :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok"
+      @keres="keresValtozott" @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
+    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" />
+    <hozzaad v-if="ujReceptLathato" />
   </main>
 
 
