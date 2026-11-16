@@ -1,7 +1,27 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+
 </script>
 
+
+
 <template>
-  <HelloWorld />
+  <header>
+    <h1 class="text-center">Receptgyűjtemény</h1>
+  </header>
+
+
+  <main>
+    
+  </main>
+
+
+  <footer>
+    <p class="text-center">Minden jog fenntartva!</p>
+  </footer>
 </template>
+
+
+
+<style scoped>
+
+</style>
