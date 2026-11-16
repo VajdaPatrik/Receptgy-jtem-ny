@@ -11,6 +11,8 @@ defineProps({
 function kepUtvonal(fajlnev) {
   return new URL(`../assets/${fajlnev}`, import.meta.url).href
 }
+
+
 function nehezsegSzin(nehezseg) {
   if (nehezseg === 'könnyű') return 'bg-success'
   if (nehezseg === 'közepes') return 'bg-warning text-dark'
@@ -30,13 +32,13 @@ function nehezsegSzin(nehezseg) {
                         <h4 class="card-title">{{ recept.getNev() }}</h4>
                         <p class="card-text">Elkészítési idő: {{ recept.getElkIdo() }}</p>
                         <p class="badge" :class="nehezsegSzin(recept.getNehezseg())">{{ recept.getNehezseg() }}</p>
-                        <a href="#" class="btn-solid theme-primary">Részletek</a>
+                        <a href="#" class="btn-solid theme-primary" @click="megnyit(recept)">Részletek</a>
                     </div>
                 </section>
             </div>
         </section>
-
-        <div v-else class="alert alert-warning text-center">
+ 
+        <div v-else class="alert alert-warning nincst">
             Nincs találat a megadott keresési feltételek alapján!
         </div>
     </div>
@@ -45,6 +47,17 @@ function nehezsegSzin(nehezseg) {
 
 
 <style scoped>
+.nincst{
+    font-size: large;
+    text-align: center !important; 
+    border: none;
+    background-color: #fff;
+    color: black;
+}
+img{
+    height: 200px;
+    width: 300px;
+}
 .kartya-sor {
   display: flex;
   flex-wrap: wrap;
