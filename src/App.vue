@@ -1,4 +1,7 @@
 <script setup>
+import receptek from './components/receptek.vue';
+import searchBar from './components/searchBar.vue';
+
 
 </script>
 
@@ -42,7 +45,8 @@
 
 
   <main>
-   
+    <searchBar />
+    <receptek />
   </main>
 
 
