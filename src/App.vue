@@ -4,6 +4,7 @@ import receptek from './components/receptek.vue';
 import searchBar from './components/searchBar.vue';
 import Recept from './classes/Recept.js';
 import { adatok } from './data/receptInfo.js';
+import hozzaad from './components/hozzaad.vue';
 
 const osszesRecept = ref([]);
 const nehezsegOpciok = ref(["Minden nehézség"]);
@@ -101,6 +102,7 @@ init();
     <searchBar :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok" @keres="keresValtozott"
       @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
     <receptek :receptek="szurtReceptek" />
+    <hozzaad />
   </main>
 
 
