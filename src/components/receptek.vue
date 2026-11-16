@@ -1,6 +1,13 @@
 <script setup>
 import { adatok } from '../data/receptInfo';
 
+defineProps({
+  receptek: {
+    type: Array,
+    default: () => []
+  }
+});
+
 function kepUtvonal(fajlnev) {
   return new URL(`../assets/${fajlnev}`, import.meta.url).href
 }
@@ -17,12 +24,12 @@ function nehezsegSzin(nehezseg) {
     <div class="container">
     <section>
         <div class="kartya-sor">
-        <section class="card" style="max-width: 320px" v-for="recept in adatok" :key="recept.id">
-  <img :src="kepUtvonal(recept.kep)" class="card-img-top" :alt="recept.nev">
+        <section class="card" style="max-width: 320px" v-for="(recept, index) in receptek" :key="index">
+  <img :src="kepUtvonal(recept.getKep())" class="card-img-top" :alt="recept.getNev()">
   <div class="card-body">
-    <h4 class="card-title">{{ recept.nev }}</h4>
-    <p class="card-text">Elkészítési idő: {{ recept.elkIdo }}</p>
-    <p class="badge " :class="nehezsegSzin(recept.nehezseg)">{{ recept.nehezseg }}</p>
+    <h4 class="card-title">{{ recept.getNev() }}</h4>
+    <p class="card-text">Elkészítési idő: {{ recept.getElkIdo() }}</p>
+    <p class="badge " :class="nehezsegSzin(recept.getNehezseg())">{{ recept.getNehezseg() }}</p>
     <a href="#" class="btn-solid theme-primary">Részletek</a>
   </div>
   

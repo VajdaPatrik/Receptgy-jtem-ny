@@ -1,5 +1,34 @@
 <script setup>
+import { ref } from 'vue';
 
+defineProps({
+    nehezsegOpciok: {
+        type: Array,
+        default: () => []
+    },
+    elkIdoOpciok: {
+        type: Array,
+        default: () => []
+    }
+});
+
+const keres = ref("");
+const nehezseg = ref(0);
+const elkIdo = ref(0);
+
+const emit = defineEmits(["keres", "nehezseg", "elkIdo"]);
+
+const keresValtozott = () => {
+    emit("keres", keres.value);
+}
+
+const nehezsegValasztott = () => {
+    emit("nehezseg", nehezseg.value);
+}
+
+const elkIdoValasztott = () => {
+    emit("elkIdo", elkIdo.value);
+}
 </script>
 
 
@@ -8,25 +37,18 @@
     <div class="container">
         <div class="d-flex justify-content-center align-items-center mb-5">
             <div class="mx-2 w-25">
-                <input type="text" class="form-control" placeholder="Keress receptet...">
+                <input type="text" v-model="keres" @input="keresValtozott" class="form-control" placeholder="Keress receptet...">
             </div>
 
             <div class="form-field nehezseg mx-2 w-25">
-                <select class="form-control" id="exampleFormControlSelect2">
-                    <option>Minden nehézség</option>
-                    <option value="1">Könnyű</option>
-                    <option value="2">Közepes</option>
-                    <option value="3">Nehéz</option>
+                <select v-model="nehezseg" @change="nehezsegValasztott" class="form-control" id="exampleFormControlSelect2">
+                    <option v-for="(opcio, index) in nehezsegOpciok" :key="index" :value="index">{{ opcio }}</option>
                 </select>
             </div>
 
             <div class="form-field elkeszitesiIdo mx-2 w-25">
-                <select class="form-control" id="exampleFormControlSelect2">
-                    <option>Elkészítési idő szerint</option>
-                    <option value="1">30 perc</option>
-                    <option value="2">45 perc</option>
-                    <option value="3">60 perc</option>
-                    <option value="3">120 perc</option>
+                <select v-model="elkIdo" @change="elkIdoValasztott" class="form-control" id="exampleFormControlSelect2">
+                    <option v-for="(opcio, index) in elkIdoOpciok" :key="index" :value="index">{{ opcio }}</option>
                 </select>
             </div>
         </div>

@@ -1,8 +1,62 @@
 <script setup>
+import { ref, computed } from 'vue';
 import receptek from './components/receptek.vue';
 import searchBar from './components/searchBar.vue';
+import Recept from './classes/Recept.js';
+import { adatok } from './data/receptInfo.js';
 
+const osszesRecept = ref([]);
+const nehezsegOpciok = ref(["Minden nehézség"]);
+const elkIdoOpciok = ref(["Elkészítési idő szerint"]);
 
+const keres = ref("");
+const nehezseg = ref(0);
+const elkIdo = ref(0);
+
+const init = () => {
+  for (let i = 0; i < adatok.length; i++) {
+    const a = adatok[i];
+
+    const r = new Recept(a.kep, a.nev, a.elkIdo);
+    r.setNehezseg(a.nehezseg);
+    osszesRecept.value.push(r);
+
+    if (!nehezsegOpciok.value.includes(a.nehezseg)) {
+      nehezsegOpciok.value.push(a.nehezseg);
+    }
+    if (!elkIdoOpciok.value.includes(a.elkIdo)) {
+      elkIdoOpciok.value.push(a.elkIdo);
+    }
+  }
+}
+
+const keresValtozott = (szoveg) => {
+  keres.value = szoveg;
+}
+
+const nehezsegValasztott = (ertek) => {
+  nehezseg.value = Number(ertek);
+}
+
+const elkIdoValasztott = (ertek) => {
+  elkIdo.value = Number(ertek);
+}
+
+const szurtReceptek = computed(() => {
+  const eredmeny = [];
+  for (let i = 0; i < osszesRecept.value.length; i++) {
+    const r = osszesRecept.value[i];
+    const nevEgyezik = r.getNev().toLowerCase().includes(keres.value.toLowerCase());
+    const nehezsegEgyezik = nehezseg.value === 0 || r.getNehezseg() === nehezsegOpciok.value[nehezseg.value];
+    const idoEgyezik = elkIdo.value === 0 || r.getElkIdo() === elkIdoOpciok.value[elkIdo.value];
+    if (nevEgyezik && nehezsegEgyezik && idoEgyezik) {
+      eredmeny.push(r);
+    }
+  }
+  return eredmeny;
+});
+
+init();
 </script>
 
 
@@ -41,12 +95,13 @@ import searchBar from './components/searchBar.vue';
   
 
 
+
   </header>
 
 
   <main>
-    <searchBar />
-    <receptek />
+    <searchBar :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok" @keres="keresValtozott" @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
+    <receptek :receptek="szurtReceptek" />
   </main>
 
 
