@@ -27,6 +27,10 @@
                     <input type="number" class="form-control" placeholder="Csak számot kell megadnod!">
                 </div>
             </div>
+            <p class="urlBevitel w-50">
+                <label class="form-label mb-2">Kép URL:</label>
+                <input type="url" class="form-control" placeholder="Ide illeszd be egy képnek az URL-jét!">
+            </p>
         </div>
     </section>
 </template>
@@ -34,7 +38,13 @@
 
 
 <style scoped>
-section, .form-label {
+section,
+.form-label {
     color: #000000 !important;
+}
+
+.urlBevitel {
+    margin: auto;
+    margin-top: 10px;
 }
 </style>
