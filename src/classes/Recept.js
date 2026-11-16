@@ -2,19 +2,22 @@ export default class Recept{
     #kep;
     #nev;
     #elkIdo;
+    #nehezseg;
 
     constructor(kep, nev, elkIdo){
         this.setKep(kep);
         this.setNev(nev);
         this.setElkIdo(elkIdo);
 
-        this.getQuestion = this.getQuestion.bind(this) 
-        this.getAnswers = this.getAnswers.bind(this) 
-        this.getGoodAnswer = this.getGoodAnswer.bind(this) 
+        this.getKep = this.getKep.bind(this) 
+        this.getNev = this.getNev.bind(this) 
+        this.getElkIdo = this.getElkIdo.bind(this) 
+        this.getNehezseg = this.getNehezseg.bind(this) 
 
         this.setKep = this.setKep.bind(this) 
         this.setNev = this.setNev.bind(this) 
         this.setElkIdo = this.setElkIdo.bind(this) 
+        this.setNehezseg = this.setNehezseg.bind(this) 
     }
 
     setKep(kep){
@@ -29,6 +32,10 @@ export default class Recept{
         this.#elkIdo = elkIdo;
     }
 
+    setNehezseg(nehezseg) {
+        this.#nehezseg = nehezseg
+    }
+
     getKep(){
         return this.#kep;
     }
@@ -39,5 +46,9 @@ export default class Recept{
 
     getElkIdo(){
         return this.#elkIdo;
+    }
+
+    getNehezseg(){
+        return this.#nehezseg;
     }
 }
