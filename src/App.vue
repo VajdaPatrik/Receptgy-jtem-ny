@@ -63,7 +63,7 @@ nav{
   background-color: #f0f0f0;
   margin: 0;
 }
-a{ 
+nav a{ 
   color: black;
 }
 </style>
