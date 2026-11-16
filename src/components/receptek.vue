@@ -22,20 +22,24 @@ function nehezsegSzin(nehezseg) {
 
 <template>
     <div class="container">
-    <section>
-        <div class="kartya-sor">
-        <section class="card" style="max-width: 320px" v-for="(recept, index) in receptek" :key="index">
-  <img :src="kepUtvonal(recept.getKep())" class="card-img-top" :alt="recept.getNev()">
-  <div class="card-body">
-    <h4 class="card-title">{{ recept.getNev() }}</h4>
-    <p class="card-text">Elkészítési idő: {{ recept.getElkIdo() }}</p>
-    <p class="badge " :class="nehezsegSzin(recept.getNehezseg())">{{ recept.getNehezseg() }}</p>
-    <a href="#" class="btn-solid theme-primary">Részletek</a>
-  </div>
-  
-</section></div>
-    </section>
-</div>
+        <section v-if="receptek.length > 0">
+            <div class="kartya-sor">
+                <section class="card" style="max-width: 320px" v-for="(recept, index) in receptek" :key="index">
+                    <img :src="kepUtvonal(recept.getKep())" class="card-img-top" :alt="recept.getNev()">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ recept.getNev() }}</h4>
+                        <p class="card-text">Elkészítési idő: {{ recept.getElkIdo() }}</p>
+                        <p class="badge" :class="nehezsegSzin(recept.getNehezseg())">{{ recept.getNehezseg() }}</p>
+                        <a href="#" class="btn-solid theme-primary">Részletek</a>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <div v-else class="alert alert-warning text-center">
+            Nincs találat a megadott keresési feltételek alapján!
+        </div>
+    </div>
 </template>
 
 
@@ -50,7 +54,6 @@ function nehezsegSzin(nehezseg) {
     transition: transform 0.2s, box-shadow 0.2s;
     background-color: #fff;
     color: black;
-    
 }
 
 .card:hover {
