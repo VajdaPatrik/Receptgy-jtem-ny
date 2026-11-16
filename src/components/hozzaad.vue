@@ -31,6 +31,9 @@
                 <label class="form-label mb-2">Kép URL:</label>
                 <input type="url" class="form-control" placeholder="Ide illeszd be egy képnek az URL-jét!">
             </p>
+            <p class="text-center mt-4">
+                <button type="button" class="btn-subtle theme-warning">Hozzáadás</button>
+            </p>
         </div>
     </section>
 </template>
@@ -51,5 +54,10 @@ section,
 .feher{
     background-color: #fff;
     color: #000000;
+}
+
+.theme-warning {
+    padding-left: 25px;
+    padding-right: 25px;
 }
 </style>
