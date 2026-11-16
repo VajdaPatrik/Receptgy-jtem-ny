@@ -35,4 +35,12 @@ function kepUtvonal(fajlnev) {
   flex-wrap: wrap;
   gap: 16px;
 }
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
 </style>
