@@ -1,5 +1,7 @@
 <script setup>
 
+
+
 </script>
 
 
@@ -31,8 +33,14 @@
                 <label class="form-label mb-2">Kép URL:</label>
                 <input type="url" class="form-control feher" placeholder="Ide illeszd be egy képnek az URL-jét!">
             </p>
+
+            <div class="form-field w-50 leiras">
+                <label class="form-label">Leírás:</label>
+                <textarea class="form-control" rows="4"></textarea>
+            </div>
+
             <p class="text-center mt-4">
-                <button type="button" class="btn-subtle theme-warning">Hozzáadás</button>
+                <button type="button" class="btn-subtle theme-warning" @click="hozzaad">Hozzáadás</button>
             </p>
         </div>
     </section>
@@ -51,7 +59,7 @@ section,
     margin-top: 10px;
 }
 
-.feher{
+.feher {
     background-color: #fff;
     color: #000000;
 }
@@ -59,5 +67,9 @@ section,
 .theme-warning {
     padding-left: 25px;
     padding-right: 25px;
+}
+
+.leiras {
+    margin: auto;
 }
 </style>
