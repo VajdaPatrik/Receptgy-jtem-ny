@@ -41,6 +41,22 @@ const init = () => {
   }
 }
 
+
+const receptMentes = ({ recept, nev, elkIdo, nehezseg }) => {
+  const index = osszesRecept.value.indexOf(recept);
+  if (index === -1) return;
+
+  const uj = new Recept(recept.getKep(), nev, elkIdo, recept.getLeiras());
+  uj.setNehezseg(nehezseg);
+  osszesRecept.value[index] = uj;
+
+  if (!nehezsegOpciok.value.includes(nehezseg)) {
+    nehezsegOpciok.value.push(nehezseg);
+  }
+  if (!elkIdoOpciok.value.includes(elkIdo)) {
+    elkIdoOpciok.value.push(elkIdo);
+  }
+};
 const keresValtozott = (szoveg) => {
   keres.value = szoveg;
 }
@@ -111,7 +127,7 @@ init();
   <main>
     <searchBar v-if="!ujReceptLathato" :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok"
       @keres="keresValtozott" @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
-    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" />
+    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" @mentes="receptMentes"/>
     <hozzaad v-if="ujReceptLathato" />
   </main>
 
@@ -130,7 +146,7 @@ nav {
 }
 
 nav a {
-  color: black;
+  color: rgb(0, 0, 0);
 }
 
 </style>

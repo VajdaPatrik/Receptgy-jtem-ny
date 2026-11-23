@@ -1,6 +1,5 @@
 <script setup>
-import { adatok } from '../data/receptInfo';
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 defineProps({
   receptek: {
@@ -9,14 +8,33 @@ defineProps({
   }
 });
 
+const emit = defineEmits(['mentes'])
+
 const kivalasztott = ref(null)
+const szerkesztes = ref(false)
+const urlap = reactive({ nev: '', elkIdo: '', nehezseg: 'könnyű' })
 
 function megnyit(recept) {
   kivalasztott.value = recept
+  szerkesztes.value = false
+}
+
+function szerkesztesInditas(recept) {
+  kivalasztott.value = recept
+  urlap.nev = recept.getNev()
+  urlap.elkIdo = recept.getElkIdo()
+  urlap.nehezseg = recept.getNehezseg()
+  szerkesztes.value = true
+}
+
+function mentes() {
+  emit('mentes', { recept: kivalasztott.value, ...urlap })
+  bezar()
 }
 
 function bezar() {
   kivalasztott.value = null
+  szerkesztes.value = false
 }
 
 function kepUtvonal(fajlnev) {
@@ -30,8 +48,6 @@ function nehezsegSzin(nehezseg) {
 }
 </script>
 
-
-
 <template>
     <div class="container">
         <section v-if="receptek.length > 0">
@@ -42,51 +58,73 @@ function nehezsegSzin(nehezseg) {
                         <h4 class="card-title">{{ recept.getNev() }}</h4>
                         <p class="card-text">Elkészítési idő: {{ recept.getElkIdo() }}</p>
                         <p class="badge" :class="nehezsegSzin(recept.getNehezseg())">{{ recept.getNehezseg() }}</p>
-                        <a href="#" class="btn-solid theme-primary" @click="megnyit(recept)">Részletek</a>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-primary" @click="megnyit(recept)">Részletek</button>
+                            <button type="button" class="btn btn-outline-secondary" @click="szerkesztesInditas(recept)">Szerkesztés</button>
+                        </div>
                     </div>
                 </section>
             </div>
         </section>
- 
+
         <div v-else class="alert alert-warning nincst">
             Nincs találat a megadott keresési feltételek alapján!
         </div>
-    </div>
-    <div v-if="kivalasztott" class="modal-hatter" @click.self="bezar">
-    <div class="modal-doboz">
-        <button type="button" class="modal-x" @click="bezar" aria-label="Bezár">✕</button>
-        <img :src="kepUtvonal(kivalasztott.getKep())" :alt="kivalasztott.getNev()" class="modal-kep">
-        <div class="modal-tartalom">
-            <h3 class="modal-cim">{{ kivalasztott.getNev() }}</h3>
-            <p class="modal-ido">Elkészítési idő: {{ kivalasztott.getElkIdo() }}</p>
-                        <p class="modal-ido">Leirás: {{ kivalasztott.getLeiras() }}</p>
 
-            <span class="badge nagy-badge" :class="nehezsegSzin(kivalasztott.getNehezseg())">
-                {{ kivalasztott.getNehezseg() }}
-            </span>
+        <!-- Modal -->
+        <div v-if="kivalasztott" class="modal-hatter" @click.self="bezar">
+            <div class="modal-doboz">
+                <button type="button" class="modal-x" @click="bezar" aria-label="Bezár">✕</button>
+                <img :src="kepUtvonal(kivalasztott.getKep())" :alt="kivalasztott.getNev()" class="modal-kep">
+                <div class="modal-tartalom">
+                    <!-- Szerkesztő űrlap -->
+                    <form v-if="szerkesztes" @submit.prevent="mentes">
+                        <h3 class="modal-cim">Recept szerkesztése</h3>
 
-            <div class="modal-lab">
-                <button type="button" class="btn btn-primary" @click="bezar">Bezár</button>
+                        <label class="form-label">Név</label>
+                        <input v-model.trim="urlap.nev" class="form-control mb-3" required>
+
+                        <label class="form-label">Elkészítési idő</label>
+                        <input v-model.trim="urlap.elkIdo" class="form-control mb-3" placeholder="pl. 30 perc" required>
+
+                        <label class="form-label">Nehézség</label>
+                        <select v-model="urlap.nehezseg" class="form-select mb-3">
+                            <option>könnyű</option>
+                            <option>közepes</option>
+                            <option>nehéz</option>
+                        </select>
+
+                        <div class="modal-lab">
+                            <button type="button" class="btn btn-secondary me-2" @click="bezar">Mégse</button>
+                            <button type="submit" class="btn btn-success">Mentés</button>
+                        </div>
+                    </form>
+
+                    <!-- Megtekintő nézet -->
+                    <template v-else>
+                        <h3 class="modal-cim">{{ kivalasztott.getNev() }}</h3>
+                        <p class="modal-ido">Elkészítési idő: {{ kivalasztott.getElkIdo() }}</p>
+                        <span class="badge nagy-badge" :class="nehezsegSzin(kivalasztott.getNehezseg())">
+                            {{ kivalasztott.getNehezseg() }}
+                        </span>
+                        <div class="modal-lab">
+                            <button type="button" class="btn btn-outline-secondary me-2" @click="szerkesztesInditas(kivalasztott)">Szerkesztés</button>
+                            <button type="button" class="btn btn-primary" @click="bezar">Bezár</button>
+                        </div>
+                    </template>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    
 </template>
-
-
 
 <style scoped>
 .nincst{
     font-size: large;
-    text-align: center !important; 
+    text-align: center !important;
     border: none;
     background-color: #fff;
     color: black;
-}
-img{
-    height: 200px;
-    width: 300px;
 }
 .kartya-sor {
   display: flex;
@@ -98,30 +136,20 @@ img{
     background-color: #fff;
     color: black;
 }
-
 .card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 .card-img-top {
   height: 200px;
+  width: 100%;
   object-fit: cover;
 }
 .badge{
     width: 60px;
 }
-.modal-content {
-    background-color: #fff;
-    color: black;
-}
-.modal-kep {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-}
-.nagy-badge {
-    width: auto;
-}
+
+
 .modal-hatter {
     position: fixed;
     inset: 0;
@@ -158,14 +186,14 @@ img{
     height: 32px;
     border: none;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(145, 28, 28, 0.6);
     color: #fff;
     font-size: 16px;
     line-height: 1;
     cursor: pointer;
 }
 .modal-x:hover {
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(143, 45, 45, 0.85);
 }
 .modal-tartalom {
     padding: 20px;
