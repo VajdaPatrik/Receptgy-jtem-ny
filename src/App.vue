@@ -138,7 +138,7 @@ init();
   <main>
     <searchBar v-if="!ujReceptLathato" :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok"
       @keres="keresValtozott" @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
-    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" />
+    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" @mentes="receptMentes"/>
     <hozzaad v-if="ujReceptLathato" />
   </main>
 
