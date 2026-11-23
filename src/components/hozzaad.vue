@@ -36,7 +36,7 @@
 
             <div class="form-field w-50 leiras">
                 <label class="form-label">Leírás:</label>
-                <textarea class="form-control" rows="4"></textarea>
+                <textarea class="form-control feher" rows="4"></textarea>
             </div>
 
             <p class="text-center mt-4">
