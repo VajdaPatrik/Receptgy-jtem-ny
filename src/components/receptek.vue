@@ -20,6 +20,7 @@ function bezar() {
 }
 
 function kepUtvonal(fajlnev) {
+  if (/^https?:\/\//.test(fajlnev)) return fajlnev
   return new URL(`../assets/${fajlnev}`, import.meta.url).href
 }
 
