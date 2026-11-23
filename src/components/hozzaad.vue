@@ -44,7 +44,7 @@ const hozzaad = () => {
         <div class="container">
             <h2 class="text-center mt-3">Új étel hozzáadása</h2>
 
-            <div v-if="hiba" class="alert alert-danger text-center mt-3">{{ hiba }}</div>
+            <div v-if="hiba" class="alert feher alert-danger text-center mt-3">{{ hiba }}</div>
 
             <div class="d-flex justify-content-center">
                 <div class="form-field mx-2 w-25">
