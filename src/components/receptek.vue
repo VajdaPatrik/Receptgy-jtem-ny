@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive } from 'vue'
+import Torles from './torles.vue';
 
 defineProps({
   receptek: {
@@ -8,7 +9,7 @@ defineProps({
   }
 });
 
-const emit = defineEmits(['mentes'])
+const emit = defineEmits(['mentes', 'torles'])
 
 const kivalasztott = ref(null)
 const szerkesztes = ref(false)
@@ -37,6 +38,11 @@ function bezar() {
   szerkesztes.value = false
 }
 
+function torlesKezel(recept) {
+  emit('torles', recept)
+  bezar()
+}
+
 function kepUtvonal(fajlnev) {
   if (/^https?:\/\//.test(fajlnev)) return fajlnev
   return new URL(`../assets/${fajlnev}`, import.meta.url).href
@@ -62,6 +68,7 @@ function nehezsegSzin(nehezseg) {
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-primary" @click="megnyit(recept)">Részletek</button>
                             <button type="button" class="btn btn-outline-secondary" @click="szerkesztesInditas(recept)">Szerkesztés</button>
+                            <Torles @torles="torlesKezel(recept)" />
                         </div>
                     </div>
                 </section>
@@ -72,13 +79,11 @@ function nehezsegSzin(nehezseg) {
             Nincs találat a megadott keresési feltételek alapján!
         </div>
 
-        <!-- Modal -->
         <div v-if="kivalasztott" class="modal-hatter" @click.self="bezar">
             <div class="modal-doboz">
                 <button type="button" class="modal-x" @click="bezar" aria-label="Bezár">✕</button>
                 <img :src="kepUtvonal(kivalasztott.getKep())" :alt="kivalasztott.getNev()" class="modal-kep">
                 <div class="modal-tartalom">
-                    <!-- Szerkesztő űrlap -->
                     <form v-if="szerkesztes" @submit.prevent="mentes">
                         <h3 class="modal-cim">Recept szerkesztése</h3>
 
@@ -101,7 +106,6 @@ function nehezsegSzin(nehezseg) {
                         </div>
                     </form>
 
-                    <!-- Megtekintő nézet -->
                     <template v-else>
                         <h3 class="modal-cim">{{ kivalasztott.getNev() }}</h3>
                         <p class="modal-ido">Elkészítési idő: {{ kivalasztott.getElkIdo() }}</p>
@@ -111,6 +115,9 @@ function nehezsegSzin(nehezseg) {
                         <div class="modal-lab">
                             <button type="button" class="btn btn-outline-secondary me-2" @click="szerkesztesInditas(kivalasztott)">Szerkesztés</button>
                             <button type="button" class="btn btn-primary" @click="bezar">Bezár</button>
+                        </div>
+                        <div class="mt-3">
+                            <Torles @torles="torlesKezel(kivalasztott)" />
                         </div>
                     </template>
                 </div>

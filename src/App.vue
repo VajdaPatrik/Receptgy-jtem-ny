@@ -68,6 +68,12 @@ const receptMentes = ({ recept, nev, elkIdo, nehezseg }) => {
     elkIdoOpciok.value.push(elkIdo);
   }
 };
+const receptTorles = (recept) => {
+  const index = osszesRecept.value.indexOf(recept);
+  if (index === -1) return;
+  osszesRecept.value.splice(index, 1);
+};
+
 const keresValtozott = (szoveg) => {
   keres.value = szoveg;
 }
@@ -138,7 +144,7 @@ init();
   <main>
     <searchBar v-if="!ujReceptLathato" :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok"
       @keres="keresValtozott" @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
-    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" />
+    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" @torles="receptTorles" />
     <hozzaad v-if="ujReceptLathato" />
   </main>
 
