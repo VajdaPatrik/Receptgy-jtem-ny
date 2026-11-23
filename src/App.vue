@@ -24,22 +24,33 @@ const receptekMegnyit = () => {
   ujReceptLathato.value = false;
 };
 
+const receptLetrehoz = (a) => {
+  const r = new Recept(a.kep, a.nev, a.elkIdo, a.leiras);
+  r.setNehezseg(a.nehezseg);
+  osszesRecept.value.push(r);
+
+  if (!nehezsegOpciok.value.includes(a.nehezseg)) {
+    nehezsegOpciok.value.push(a.nehezseg);
+  }
+  if (!elkIdoOpciok.value.includes(a.elkIdo)) {
+    elkIdoOpciok.value.push(a.elkIdo);
+  }
+};
+
 const init = () => {
   for (let i = 0; i < adatok.length; i++) {
-    const a = adatok[i];
-
-    const r = new Recept(a.kep, a.nev, a.elkIdo);
-    r.setNehezseg(a.nehezseg);
-    osszesRecept.value.push(r);
-
-    if (!nehezsegOpciok.value.includes(a.nehezseg)) {
-      nehezsegOpciok.value.push(a.nehezseg);
-    }
-    if (!elkIdoOpciok.value.includes(a.elkIdo)) {
-      elkIdoOpciok.value.push(a.elkIdo);
-    }
+    receptLetrehoz(adatok[i]);
   }
-}
+};
+
+const receptHozzaad = (ujAdat) => {
+  // Bekerül a receptInfo.js-ben lévő adatok tömbbe...
+  adatok.push(ujAdat);
+  // ...és a megjelenített receptek közé
+  receptLetrehoz(ujAdat);
+  // Vissza a receptlistához
+  ujReceptLathato.value = false;
+};
 
 
 const receptMentes = ({ recept, nev, elkIdo, nehezseg }) => {
@@ -127,7 +138,7 @@ init();
   <main>
     <searchBar v-if="!ujReceptLathato" :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok"
       @keres="keresValtozott" @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
-    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" @mentes="receptMentes"/>
+    <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" />
     <hozzaad v-if="ujReceptLathato" />
   </main>
 
