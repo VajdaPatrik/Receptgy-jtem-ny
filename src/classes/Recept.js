@@ -8,7 +8,7 @@ export default class Recept{
         this.setKep(kep);
         this.setNev(nev);
         this.setElkIdo(elkIdo);
-        this.setLeiras(leiras)
+        this.setLeiras(leiras);
 
         this.getLeiras = this.getLeiras.bind(this)
         this.getKep = this.getKep.bind(this) 
@@ -23,7 +23,7 @@ export default class Recept{
         this.setNehezseg = this.setNehezseg.bind(this) 
     }
     setLeiras(leiras){
-        this.#leiras = leiras
+        this.#leiras = leiras;
     }
 
     setKep(kep){
