@@ -44,11 +44,8 @@ const init = () => {
 };
 
 const receptHozzaad = (ujAdat) => {
-  // Bekerül a receptInfo.js-ben lévő adatok tömbbe...
   adatok.push(ujAdat);
-  // ...és a megjelenített receptek közé
   receptLetrehoz(ujAdat);
-  // Vissza a receptlistához
   ujReceptLathato.value = false;
 };
 
