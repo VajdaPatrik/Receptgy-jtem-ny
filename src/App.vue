@@ -145,7 +145,7 @@ init();
     <searchBar v-if="!ujReceptLathato" :nehezseg-opciok="nehezsegOpciok" :elk-ido-opciok="elkIdoOpciok"
       @keres="keresValtozott" @nehezseg="nehezsegValasztott" @elkIdo="elkIdoValasztott" />
     <receptek v-if="!ujReceptLathato" :receptek="szurtReceptek" @torles="receptTorles" @mentes="receptMentes" />
-    <hozzaad v-if="ujReceptLathato" />
+    <hozzaad v-if="ujReceptLathato" @mentes="receptHozzaad" />
   </main>
 
 
